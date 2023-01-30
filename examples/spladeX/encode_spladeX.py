@@ -88,11 +88,7 @@ def main():
         
     encode_dataset = EncodeDataset(encode_dataset.process(data_args.encode_num_shard, data_args.encode_shard_index),
                                    tokenizer, max_len=text_max_length)
-    
-    if not data_args.encode_is_qry:
-        mask = dict(filter(lambda x : filter_corpus_En(x[1]), vocab_dict.items())).keys()
-        encode_dataset.encode_data = encode_dataset.encode_data.map(lambda x : mask_En(x, mask))
-    
+
     encode_loader = DataLoader(
         encode_dataset,
         batch_size=training_args.per_device_eval_batch_size,
